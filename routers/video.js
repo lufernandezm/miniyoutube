@@ -3,19 +3,6 @@ const Video = require('../models/Video')
 const controller = require('../controllers/video')
 const router = express.Router()
 
-router.get('/videos', async (req, res) => {
-
-    const { sort = 'desc', search } = req.query
-    const video = await controller.filterVideos(sort, search)
-
-    res.status(200).send({
-        status: 200,
-        message: 'This are the found videos.',
-        data: video
-
-    })
-})
-
 router.post('/videos', async (req, res) => {
 
     const video = new Video({
