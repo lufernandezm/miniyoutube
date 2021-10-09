@@ -9,21 +9,31 @@
 </head>
 
 <body>
-    <div class="main-content">
+    <main>
         {{>header}}
-
-        <p>Use this site to post and get your videos on Miniyoutube!</p>
-
-        <form>
-            <input placeholder="What do you wanna Whatch?">
-            <button>Search</button>
+        <form class="search">
+            <input type="text" name="search" placeholder="Search...">
+            <button type="submit">Search</button>
         </form>
-
-        <p id="message-1"></p>
-        <p id="message-2"></p>
-    </div>
-
-    {{>footer}}
+        <ul>
+            {{#each videos}}
+                <li id="{{this._id}}" class="card">
+                    <img class="thumbnail" src="{{this.thumbnail}}">
+                    <div class="details">
+                        <h2>{{this.title}}</h2>
+                        <p>{{this.creation_date}}</p>
+                        <div class="rating">
+                            <img class="like" src="/img/like.png">
+                            <span class="like">{{this.likes_counter}}</span>
+                            <img class="dislike" src="/img/like.png">
+                            <span class="dislike">{{this.dislikes_counter}}</span>
+                        </div>
+                    </div>
+                </li>
+            {{/each}}
+        </ul>
+        {{>footer}}
+    </main>
 
     <script src="/js/app.js"></script>
 </body>

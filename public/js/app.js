@@ -1,16 +1,12 @@
-const videoForm = document.querySelector('form')
-const search = document.querySelector('input')
-const messageOne = document.querySelector('#message-1')
-const messageTwo = document.querySelector('#message-2')
+const start = () => {
+    const videos = document.querySelectorAll('.card')
+   
+    videos.forEach(item => {
+            item.firstElementChild.addEventListener('click', event => {
+                    const currentPath = window.location.origin
+                    window.location.href = `${currentPath}/videos/${item.id}`
+            })
+    })
+}
 
-videoForm.addEventListener('submit', (e) => {
-    e.preventDefault()
-
-    const video = search.value
-
-    messageOne.textContent = 'Loading...'
-    messageTwo.textContent = ''
-
-    //Aquí se hace la búsqueda del video
-
-})
+window.onload = start
