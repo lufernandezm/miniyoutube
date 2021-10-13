@@ -9,12 +9,34 @@
 </head>
 
 <body>
-    <div class="main-content">
+    <main>
         {{>header}}
-        <p>{{helpText}}</p>
-    </div>
-    
-    {{>footer}}
+        <video controls>
+            <source src="/img/mov_bbb.mp4" type="video/mp4">
+            Your browser does not support HTML video.
+        </video>
+
+        <section class="details">
+            <h1>{{video.title}}</h1>
+            <p class="date">{{video.creation_date}}</p>
+            <p class="tags">
+                {{#each video.tags}}
+                    <span>{{this}}</span>
+                {{/each}}
+            </p>
+            <div class="rating">
+                <img class="like" src="/img/like.png">
+                <span class="like">{{video.likes_counter}}</span>
+                <img class="dislike" src="/img/like.png">
+                <span class="dislike">{{video.dislikes_counter}}</span>
+            </div>
+            <p>{{video.description}}</p>
+        </section>
+
+        <p>Comments</p>
+        {{>footer}}
+    </main>
+
 </body>
 
 </html>

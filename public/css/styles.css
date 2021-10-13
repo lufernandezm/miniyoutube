@@ -88,22 +88,45 @@ ul {
     margin: 2px 0 20px;
 }
  
-.card .details .rating img.like {
+.rating img.like {
     height: 20px;
 }
- 
-.card .details .rating img.dislike {
+
+.rating img.dislike {
     height: 20px;
     margin-top: 4px;
     margin-left: 10px;
     transform: scale(-1, -1);
     vertical-align: middle;
 }
- 
-.card .details .rating span.like {
+
+.rating span.like {
     font-size: .85rem;
 }
- 
-.card .details .rating span.dislike {
+
+.rating span.dislike {
     font-size: .85rem;
+}
+
+video {
+    width: 100%;
+}
+
+.details h1 { margin-bottom: 5px; }
+
+.details .date {
+    color: #AAA;
+    font-size: .75rem;
+    margin: 0;
+}
+
+.details .tags { margin: 5px 0 30px }
+
+.details .tags span  {
+    padding: 2px 5px;
+    font-size: .75rem;
+    margin-right: 5px;
+    border-radius: 3px;
+    font-style: italic;
+    background-color: #DDD;
 }
