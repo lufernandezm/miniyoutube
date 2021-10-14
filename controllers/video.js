@@ -45,11 +45,8 @@ const uploadVideo = async (media) => {
     try {
     
         const arrayMedia = Object.entries(media)
-        console.log('arrayMedia',arrayMedia)
         const imgUploaded = await cloudinary.v2.uploader.upload(arrayMedia[0][1][0].path)
-        console.log('imgUploaded',imgUploaded)
         const videoUploaded = await cloudinary.v2.uploader.upload(arrayMedia[1][1][0].path,{ resource_type: "video" })
-        console.log('videoUploaded',videoUploaded)
         const mediaUploade = {
             thumbnail: imgUploaded.url,
             url: videoUploaded.url

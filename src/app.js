@@ -2,6 +2,7 @@ const path = require('path')
 const express = require('express')
 const hbs = require('hbs')
 const videoRouter = require('../routers/video')
+const commentRouter = require('../routers/comment')
 const controller = require('../controllers/Video')
 require('./db/mongoose')
 
@@ -19,6 +20,7 @@ hbs.registerPartials(partialsPath)
 
 app.use(express.json())
 app.use(videoRouter)
+app.use(commentRouter)
 app.use(express.static(publicDirectoryPath))
 
 app.get('', async (req, res) => {

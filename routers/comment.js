@@ -2,20 +2,21 @@ const express = require('express')
 const Comment = require('../models/Comment')
 const controller = require('../controllers/comment')
 const router = express.Router()
-router.post('/comments', async (req, res) => {
 
-    const commentData = new Comment({
-        ...req.body
-    })
+router.post('/videos/comments', async (req, res) => {
+    try {
+        await controller.postComment(req.body)
+        res.send({
+            status: 200,
+            message: 'ok'
+        })
 
-    const createdComment = controller.postComment(commentData)
+    } catch (error) {
+        res.status(400).send({
+            status: 400
+        })
+    }
 
-        res.status(201).send({
-            status: 201,
-            message: 'Comment created successfully!',
-            data: comment})
-        
-    
 })
 
 module.exports = router

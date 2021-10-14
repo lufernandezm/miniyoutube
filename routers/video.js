@@ -20,28 +20,27 @@ router.post('/videos', upload.fields([{ name: 'video', maxCount: 1 }, { name: 't
             })
 
         } catch (error) {
-            res.render('404', {
+            res.status(400).render('404', {
                 title: '400',
                 name: 'Lu Madrid',
-                errorMessage: 'Could not created video.'
+                errorMessage: 'Could not create video.'
             })
         }
     })
 
 router.patch('/videos', async (req, res) => {
-        try {
+    try {
+        await controller.updateVideo(req.body)
+        res.send({
+            status: 200,
+            message: 'ok'
+        })
 
-            await controller.updateVideo(req.body)
-            res.send({
-                status: 200,
-                message: 'ok'
-            })
-
-        } catch (error) {
-            res.status(400).send({
-                status: 400
-            })
-        }
-    })
+    } catch (error) {
+        res.status(400).send({
+            status: 400
+        })
+    }
+})
 
 module.exports = router

@@ -2,14 +2,17 @@ const Video = require('../models/Video')
 const Comment = require('../models/Comment')
 
 const postComment= async(commentData) => {
-
+    const { commentInfo, videoId} = commentData
+    commentInfo.creation_date = Date.now()
+    
     try {
-        const createdComment = await Comment.save(commentData.commentInfo)
-        Video.findByIdAndUpdate({ _id : ObjectId(commentData.videoId),  $addToSet: { comments: createdComment._id } })
-        return 
+        const newComment = new Comment(commentInfo)
+        const createdComment = await newComment.save()
+        await Video.findByIdAndUpdate( videoId,  {$addToSet: { comments: createdComment._id }} )
+        return createdComment
         
     } catch (error) {
-        res.status(400).send()
+        console.log(error)
     }
 }
 

@@ -27,16 +27,16 @@
             </p>
             <div class="rating">
                 <img id="btnLike" class="like btn-like" src="/img/like.png">
-                <span class="like">{{video.likes_counter}}</span>
+                <span id="counterLike" class="like">{{video.likes_counter}}</span>
                 <img id="btnDisike" class="dislike btn-dislike" src="/img/like.png">
-                <span class="dislike">{{video.dislikes_counter}}</span>
+                <span id= "counterDislike"class="dislike">{{video.dislikes_counter}}</span>
             </div>
             <p>{{video.description}}</p>
         </section>
 
         <section class="comments">
             <h3 class="underlined">Add comment</h3>
-            <form method="POST" action="./comments">
+            <form action="comments" method="post" name="addComment">
                 <input type="text" name="video-id" value={{video._id}} hidden>
                 <input type="text" name="author" placeholder="Author" required>
                 <textarea name="comment" placeholder="Write your comment here..." required></textarea>
@@ -58,7 +58,8 @@
 
         {{>footer}}
     </main>
-
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="/js/app.js"></script>
 </body>
 
 </html>

@@ -1,90 +1,94 @@
 const getFormatedDate = timestamp => {
-        const formatedDate = new Date(timestamp)
-        return formatedDate.toLocaleDateString()
+	const formatedDate = new Date(timestamp)
+	return formatedDate.toLocaleDateString()
 }
 
 const homePage = () => {
-        const videos = document.querySelectorAll('.card')
+	const videos = document.querySelectorAll('.card')
 
-        videos.forEach(item => {
-                item.firstElementChild.addEventListener('click', event => {
-                        const currentPath = window.location.href
-                        window.location.href = `${currentPath}/${item.id}`
-                })
-        })
+	videos.forEach(item => {
+		item.firstElementChild.addEventListener('click', event => {
+			const currentPath = window.location.href
+			window.location.href = `${currentPath}videos/${item.id}`
+		})
+	})
 }
 
 const viewPage = () => {
+	const addComment = document.forms.namedItem("addComment")
+	addComment.addEventListener('submit', (event) => {
+		event.preventDefault()
 
-        const videoId = document.getElementsByTagName('video')[0].id
+		const formData = new FormData(addComment)
+		const commentData =
+		{
+			commentInfo: {
+				user: formData.get('author'),
+				text: formData.get('comment')
+			},
+			videoId: formData.get('video-id')
+		}
 
-        // Like video
-        const btnLike = document.getElementById('btnLike')
-        btnLike.addEventListener('click', event => {
+		console.log('commentData', commentData)
+		axios.post('./comments', commentData).then((response) => {
+			if (response.status === 200) location.reload()
+			else alert('Could not create comment.')
+		})
 
-                const likesQty = parseInt(counterLike.innerHTML)
-                const likeRequest = new XMLHttpRequest();
-                const data = {
-                        videoId: videoId,
-                        action: 'like',
-                        qty: likesQty + 1
-                }
+	})
 
-                likeRequest.open('PATCH', 'https://reqbin.com/echo/patch/json', true);
-                likeRequest.setRequestHeader("Accept", "application/json");
-                likeRequest.setRequestHeader("Content-Type", "application/json");
+	const videoId = document.getElementsByTagName('video')[0].id
+	console.log('videoId: ', videoId)
 
-                likeRequest.onreadystatechange = () => {
-                        if (likeRequest.readyState === 4) {
-                                console.log('status => ', likeRequest.status);
-                                console.log('responseText => ', likeRequest.responseText);
-                        }
-                };
+	// Like video
+	const btnLike = document.getElementById('btnLike')
 
-                likeRequest.send(data);
+	btnLike.addEventListener('click', event => {
+		const likesQty = parseInt(counterLike.innerHTML)
 
-        });
+		const data = {
+			videoId: videoId,
+			action: 'like',
+			qty: likesQty + 1
+		}
 
-        // Dislike video
-        const btnDisike = document.getElementById('btnDisike')
-        btnDisike.addEventListener('click', event => {
+		axios.patch('./', data).then((response) => {
+			if (response.status === 200) counterLike.innerHTML = likesQty + 1
+		})
 
-                const dislikesQty = parseInt(counterDislike.innerHTML)
-                const dislikeRequest = new XMLHttpRequest();
-                const data = {
-                        videoId: videoId,
-                        action: 'dislike',
-                        qty: dislikesQty + 1
-                }
+	});
 
-                dislikeRequest.open('PATCH', 'https://reqbin.com/echo/patch/json', true);
-                dislikeRequest.setRequestHeader("Accept", "application/json");
-                dislikeRequest.setRequestHeader("Content-Type", "application/json");
+	// Dislike video
 
-                dislikeRequest.onreadystatechange = () => {
-                        if (dislikeRequest.readyState === 4) {
-                                console.log('status => ', dislikeRequest.status);
-                                console.log('responseText => ', dislikeRequest.responseText);
-                        }
-                };
+	const btnDisike = document.getElementById('btnDisike')
 
-                dislikeRequest.send(data);
-        });
+	btnDisike.addEventListener('click', event => {
+		const dislikesQty = parseInt(counterDislike.innerHTML)
+
+		const data = {
+			videoId: videoId,
+			action: 'dislike',
+			qty: dislikesQty + 1
+		}
+
+		axios.patch('./', data).then((response) => {
+			if (response.status === 200) counterDislike.innerHTML = dislikesQty + 1
+		})
+	});
 }
 
 const start = () => {
+	const mainElement = document.body.children[0]
+	const page = mainElement.dataset.page
 
-        const mainElement = document.body.children[0]
-        const page = mainElement.dataset.page
-
-        switch (page) {
-                case 'home':
-                        homePage()
-                        break
-                case 'view':
-                        viewPage()
-                        break
-        }
+	switch (page) {
+		case 'home':
+			homePage()
+			break
+		case 'view':
+			viewPage()
+			break
+	}
 }
 
 window.onload = start
