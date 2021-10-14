@@ -43,16 +43,21 @@ const getView = async (_id) => {
 
 const uploadVideo = async (media) => {
     try {
-        const mediaUploaded = Object.entries(media).map((e) =>
-            cloudinary.v2.uploader.upload(e[1][0].path)
-        );
-        console.log('mediaUploaded', mediaUploaded)
-        const responses = await Promise.all(mediaUploaded);
-        console.log('responses', responses)
+    
+        const arrayMedia = Object.entries(media)
+        console.log('arrayMedia',arrayMedia)
+        const imgUploaded = await cloudinary.v2.uploader.upload(arrayMedia[0][1][0].path)
+        console.log('imgUploaded',imgUploaded)
+        const videoUploaded = await cloudinary.v2.uploader.upload(arrayMedia[1][1][0].path,{ resource_type: "video" })
+        console.log('videoUploaded',videoUploaded)
+        const mediaUploade = {
+            thumbnail: imgUploaded.url,
+            url: videoUploaded.url
+        }
 
+        return mediaUploade
     } catch (error) {
         console.error(error)
-        res.status(500).send()
     }
 }
 
@@ -69,10 +74,23 @@ const postVideo = async (data, thumbnail, url) => {
 
     try {
         const newVideo = new Video(data)
-        console.log('aqui1')
         const createdVideo = await newVideo.save()
-        console.log('aqui2')
         return createdVideo
+
+    } catch (error) {
+        res.status(400).send()
+    }
+}
+
+const updateVideo = async (data) => {
+
+    try {
+        if (data.action === 'like') {
+            await Video.findByIdAndUpdate(data.videoId, { likes_counter: data.qty })
+        } else {
+            await Video.findByIdAndUpdate(data.videoId, { dislikes_counter: data.qty })
+        }
+        return 0
 
     } catch (error) {
         res.status(400).send()
@@ -84,5 +102,6 @@ module.exports = {
     getVideos,
     getView,
     uploadVideo,
-    postVideo
+    postVideo,
+    updateVideo
 }

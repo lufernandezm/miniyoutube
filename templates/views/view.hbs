@@ -3,16 +3,17 @@
 <html>
 
 <head>
-    <title>Help</title>
+    <title>Video</title>
     <link rel="icon" href="/img/Miniyoutube.png">
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 
 <body>
-    <main>
+    <main data-page="view">
         {{>header}}
-        <video controls>
-            <source src="/img/mov_bbb.mp4" type="video/mp4">
+
+        <video id={{video._id}} controls>
+            <source src={{video.url}} type="video/mp4">
             Your browser does not support HTML video.
         </video>
 
@@ -21,19 +22,40 @@
             <p class="date">{{video.creation_date}}</p>
             <p class="tags">
                 {{#each video.tags}}
-                    <span>{{this}}</span>
+                <span>{{this}}</span>
                 {{/each}}
             </p>
             <div class="rating">
-                <img class="like" src="/img/like.png">
+                <img id="btnLike" class="like btn-like" src="/img/like.png">
                 <span class="like">{{video.likes_counter}}</span>
-                <img class="dislike" src="/img/like.png">
+                <img id="btnDisike" class="dislike btn-dislike" src="/img/like.png">
                 <span class="dislike">{{video.dislikes_counter}}</span>
             </div>
             <p>{{video.description}}</p>
         </section>
 
-        <p>Comments</p>
+        <section class="comments">
+            <h3 class="underlined">Add comment</h3>
+            <form method="POST" action="./comments">
+                <input type="text" name="video-id" value={{video._id}} hidden>
+                <input type="text" name="author" placeholder="Author" required>
+                <textarea name="comment" placeholder="Write your comment here..." required></textarea>
+                <button type="submit">Save</button>
+            </form>
+
+            <h3 class="underlined">Comments</h3>
+            {{#each comments}}
+                <div class="comment">
+                    <p>
+                        <b class="user">{{this.user}}</b>
+                        <span class="date">{{this.creation_date}}</span>
+                    </p>
+                    <p>{{this.text}}</p>
+                </div>
+            {{/each}}
+            
+        </section>
+
         {{>footer}}
     </main>
 

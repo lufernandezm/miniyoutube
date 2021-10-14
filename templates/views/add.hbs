@@ -3,19 +3,31 @@
 <html>
 
 <head>
-    <title>About</title>
+    <title>Add</title>
     <link rel="icon" href="/img/Miniyoutube.png">
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 
 <body>
-    <div class="main-content">
+    <main data-page="add">
         {{>header}}
-        <p>This site was created with love by Lu and Spy!</p>
-        <img class="portrait" src="/img/spy.png">
-    </div>
-    
-    {{>footer}}
+        <h2 class="underlined">Add video</h2>
+        <form class="add-video" action="./videos" method="post" enctype="multipart/form-data">
+            <label for="title">Title</label>
+            <input type="text" id="title" name="title" placeholder="" required>
+            <label for="tags">Tags</label>
+            <input type="text" id="tags" name="tags" placeholder="">
+            <label for="thumbnail">Thumbnail</label>
+            <input type="file" id="thumbnail" name="thumbnail" accept="image/*" required>
+            <label for="video">Video</label>
+            <input type="file" id="video" name="video" accept="video/*" required>
+            <label for="description">Description</label>
+            <textarea id="description" name="description" placeholder="Write your description here..."></textarea>
+            <button type="submit">Save</button>
+        </form>
+        {{>footer}}
+    </main>
+
 </body>
 
 </html>
