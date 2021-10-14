@@ -3,7 +3,7 @@ const Comment = require('../models/Comment')
 const postComment= async(commentData) => {
 
     try {
-        const createdComment = await comment.save(commentData.commentInfo)
+        const createdComment = await Comment.save(commentData.commentInfo)
         Video.findByIdAndUpdate({ _id : ObjectId(commentData.videoId),  $addToSet: { comments: createdComment._id } })
         return 
         

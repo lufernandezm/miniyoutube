@@ -1,25 +1,27 @@
 const express = require('express')
-const Video = require('../models/Video')
 const controller = require('../controllers/video')
 const router = express.Router()
+const multer = require('multer')
+const storage = require('../src/utils/multer.js')
 
-router.post('/videos', async (req, res) => {
+const upload = multer({ storage });
 
-    const video = new Video({
-        ...req.body
+router.post('/videos', upload.fields([{ name: 'video', maxCount: 1 }, { name: 'thumbnail', maxCount: 1 }]),
+    async (req, res) => {
+        try {
+            // controller.uploadVideo(req.files)
+            const thumbnail = "https://image.tmdb.org/t/p/w500/wqaaWAlXgLNGdAemU7wNvFZ70hr.jpg"
+            const url = "www.url.com"
+            const createdVideo = await controller.postVideo(req.body, thumbnail, url)
+            res.status(201).send({
+                status: 201,
+                message: "Video created successfully!",
+                data: createdVideo
+            })
+
+        } catch (error) {
+            res.status(400).send(error)
+        }
     })
-
-    try {
-        await video.save()
-        res.status(201).send({
-            status: 201,
-            message: 'Video created successfully!',
-            data: video
-        })
-
-    } catch (error) {
-        res.status(400).send(error)
-    }
-})
 
 module.exports = router

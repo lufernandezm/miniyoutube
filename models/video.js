@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const videoSchema = new mongoose.Schema({
     title: {
         type: String,
-        required: true.valueOf, 
+        required: true, 
         trim: true
     },
     description: {
@@ -37,6 +37,7 @@ const videoSchema = new mongoose.Schema({
         required: true
     }
 })
+
 
 const Video = mongoose.model('Video', videoSchema)
 
